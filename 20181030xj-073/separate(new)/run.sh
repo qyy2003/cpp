@@ -1,4 +1,4 @@
 #!/bin/bash
 g++ -o a separate.cpp -lm
-time ./a
-diff separate.out separate.ans -b
+time ./a<separate1.in>separate.out
+diff separate.out separate1.ans -b
