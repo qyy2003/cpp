@@ -3,50 +3,46 @@
 #include<algorithm>
 #include<cstring>
 using namespace std;
-long long n,a[2000000],f[2000000],flag,ans,maxa,maxb,x,suma;
+long long n,a[2000000],flag,ans,maxa,maxb,x;
 char s[2000000];
 int main(){
     scanf("%lld",&n);
     for(int i=1;i<=n;i++) scanf("%lld",&a[i]);
-    scanf("%s",s+1);
-    for(int i=n;i>=1;i--){
-	if(s[i]=='L') f[i]=f[i+1]+a[i];
-	else f[i]=f[i+1]-a[i];
-	f[i]=max(0ll,f[i]);
-    }
+    scanf("%s",s);
     flag=0;
-    maxa=0;
     for(int i=1;i<=n;i++){
-	if(s[i]=='G'){
+	if(s[i-1]=='G'){
 	    ans+=a[i]*5ll;
 	    maxa+=a[i];
-	    if(f[i+1]<maxa){
-		x=min(maxa-f[i+1],a[i]*2ll);
-		ans-=x*2ll;
-		maxa-=x;
-	    }
 	    continue;
 	}
-	if(s[i]=='W'){
+	if(s[i-1]=='W'){
 	    ans+=a[i]*3ll;
-	    maxa+=a[i];
+	    maxb+=a[i];
 	    flag=1;
 	    continue;
 	}
-	if(s[i]=='L'){
-	    if(maxa<a[i]){
+	if(s[i-1]=='L'){
+	    if(maxa+maxb<a[i]){
 		if(flag) {
-		    ans+=(a[i]-maxa)*3ll;
+		    ans+=(a[i]-maxb-maxa)*3ll;
+		    maxb=a[i]-maxa;
 		}
 		else{
 		    ans+=(a[i]-maxa)*5ll;
+		    maxa=a[i];
 		}
-		maxa=a[i];
 	    }
 	    ans+=a[i];
+	    x=min(maxb,a[i]);
+	    maxb-=x;
+	    a[i]-=x;
 	    maxa-=a[i];
 	}
     }
-    ans-=maxa;
+    ans-=maxa*2+maxb;
     printf("%lld",ans);
 }
+
+
+
