@@ -1,8 +1,9 @@
 #include<cstdio>
+#include<cstring>
 #include<algorithm>
 using namespace std;
-const int MAXA=1e6;
-const int MAXN=1e7+1e6;
+const int MAXA=1e5;
+const int MAXN=1e7+1e4;
 long long ans;
 int n,m,x,tot,l,r,top1,top2;
 int first[MAXA],nxt[MAXA],val[MAXA],go[MAXA],que[MAXA],b[MAXA],fa[MAXA],zx[MAXA],siz[MAXA],tree[MAXN+10],bb[MAXA],que1[MAXA],que2[MAXA];
@@ -41,6 +42,7 @@ int dfs(int x,int father,int y){
 }
 int bfs(int x);
 int work(int x,int father){
+    if(bb[x]) return 0;
     x=bfs(x);
     //printf("%d %d\n",x,father);
     //fflush(stdout);
@@ -69,6 +71,7 @@ int bfs(int x){
     b[x]=1;
     while(l<r){
 	now=que[++l];;
+	siz[now]=0;
 	for(int i=first[now];i;i=nxt[i]){
 	    if((!bb[go[i]])&&(!b[go[i]])){
 		b[go[i]]=1;
@@ -90,14 +93,18 @@ int bfs(int x){
     return zx[x];
 }
 int main(){
-    scanf("%d%d",&n,&m);
+    while(scanf("%d%d",&n,&m)!=EOF&&(n+m!=0)){
+    memset(first,0,sizeof(first));
+    memset(bb,0,sizeof(bb));
+    tot=0; ans=0;
     int x,y,z;
-    while(scanf("%d%d",&x,&y)!=EOF&&(x+y!=0)){
-	scanf("%d",&z);
+    for(int i=2;i<=n;i++){
+	scanf("%d%d%d",&x,&y,&z);
 	add(x,y,z);
 	add(y,x,z);
     }
     work(1,0);
-    printf("%lld",ans);
+    printf("%lld\n",ans);
+    }
     return 0;
 }
