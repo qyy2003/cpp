@@ -6,7 +6,7 @@ while true ; do
     ./rand>data.in
     time ./std<data.in>std.out
     time ./my<data.in>my.out
-    if diff my.out std.out; then 
+    if diff my.out std.out -b; then 
 	echo AC
     else
 	echo WA

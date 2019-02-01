@@ -3,7 +3,7 @@
 #include<iostream>
 #include<cstring>
 using namespace std;
-const int MAXA=800000;
+const int MAXA=400000;
 int n,m,x,y,tot,top,cnt;
 long long xx,b[MAXA],f[MAXA<<1],ans[MAXA<<3],mm=0;
 int first[MAXA],nxt[MAXA<<1],go[MAXA<<1],val[MAXA],deep[MAXA];

@@ -91,6 +91,7 @@ int main()
         long long ret = std::count(cover + 1, cover + 1 + n, 2);
         long long bridge = std::count(cover + 1, cover + n + 1, 1);
         ret += bridge * (bridge - 1) / 2 + bridge * (m - bridge);
+        printf("%lld %lld\n", bridge, bridge * (bridge - 1) / 2 + bridge * (m - bridge));
         std::sort(val + 1, val + n + 1);
         for(int i = 1, len; i <= n; i++) {
                 if(val[i] == 0) {

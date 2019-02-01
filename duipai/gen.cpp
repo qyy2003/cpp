@@ -1,8 +1,8 @@
 #include<bits/stdc++.h>
 #define pii pair<int, int>
 using namespace std;
-const int n =20;
-const int m = 40;
+const int n = 100000;
+const int m = 300000;
 set<pair<int, int> > s;
 int main()
 {
