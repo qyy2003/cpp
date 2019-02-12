@@ -1,9 +1,11 @@
 #include<cstdio>
 #include<algorithm>
 #include<iostream>
+#define int long long
 using namespace std;
-const int MAXA=100000;
-int n,m,size[MAXA<<2],son[MAXA<<1],a[MAXA<<2],tree[MAXA<<3],tot,dfnn,df[MAXA<<2],x,y,z,dfn[MAXA<<2],topp[MAXA<<1],fa[MAXA<<2],fla[MAXA<<3];
+const int MAXA=300000;
+int n,m,size[MAXA<<2],son[MAXA<<1],a[MAXA<<2],tot,dfnn,df[MAXA<<2],x,y,z,dfn[MAXA<<2],topp[MAXA<<1],fa[MAXA<<2],fla[MAXA<<3];
+long long tree[MAXA<<3];
 int first[MAXA<<2],nxt[MAXA<<2],go[MAXA<<2];
 int trl[MAXA<<3],trr[MAXA<<3],deep[MAXA<<2],ll[MAXA<<2],rr[MAXA<<2];
 
@@ -13,12 +15,13 @@ int add(int x,int y){
 }
 
 int pre_dfs(int x,int father){
+    deep[x]=deep[father]+1;
+    fa[x]=father;
     for(int i=first[x];i;i=nxt[i])
 	if(go[i]!=father){
 	    size[x]+=pre_dfs(go[i],x);
 	    if(size[go[i]]>size[son[x]]) son[x]=go[i];
 	}
-    deep[x]=deep[father]+1;
     return ++size[x];
 }
 
@@ -26,7 +29,6 @@ int predfs(int x,int father){
     dfn[x]=++dfnn;
     df[dfnn]=x;
     ll[x]=dfnn;
-    fa[x]=father;
     if(son[x]){
 	topp[son[x]]=topp[x];
 	predfs(son[x],x);
@@ -47,7 +49,7 @@ int build(int x,int l,int r){
     return tree[x]=build(x<<1,l,mid)+build(x<<1|1,mid+1,r);
 }
 
-int ad(int x,int l,int r,int z){
+long long ad(int x,int l,int r,int z){
     if(l>trr[x]||r<trl[x]) return tree[x];
     if(l<=trl[x]&&r>=trr[x]){
 	fla[x]+=z;
@@ -61,9 +63,9 @@ int ad(int x,int l,int r,int z){
     return tree[x]=ad(x<<1,l,r,z)+ad(x<<1|1,l,r,z);
 }
 
-int ask(int x,int l,int r){
+long long ask(int x,int l,int r){
     if(l<=trl[x]&&r>=trr[x]) return tree[x];
-    if(l>trr[x]||r<trl[x]) return 0;
+    if(l>trr[x]||r<trl[x]) return 0ll;
     int mid=(trl[x]+trr[x])>>1;
     fla[x<<1]+=fla[x];fla[x<<1|1]+=fla[x];
     tree[x<<1]+=1ll*(mid-trl[x]+1)*fla[x];
@@ -72,20 +74,21 @@ int ask(int x,int l,int r){
     return ask(x<<1,l,r)+ask(x<<1|1,l,r);
 }
 
-int work(int x){
+long long work(int x){
     long long ans=0;
     while(x){
 	ans+=ask(1,dfn[topp[x]],dfn[x]);
+	//printf("%d %d %lld\n",x,topp[x],ask(1,dfn[topp[x]],dfn[x]));
 	x=fa[topp[x]];
     }
     return ans;
 }
 
-int main(){
-    scanf("%d%d",&n,&m);
-    for(int i=1;i<=n;i++) scanf("%d",&a[i]);
+main(){
+    scanf("%lld%lld",&n,&m);
+    for(int i=1;i<=n;i++) scanf("%lld",&a[i]);
     for(int i=1;i<n;i++){
-	scanf("%d%d",&x,&y);
+	scanf("%lld%lld",&x,&y);
 	add(x,y);
 	add(y,x);
     }
@@ -94,10 +97,10 @@ int main(){
     predfs(1,0);
     build(1,1,n);
     for(int i=1;i<=m;i++){
-	scanf("%d%d",&x,&y);
-	if(x==3) printf("%d\n",work(y));
+	scanf("%lld%lld",&x,&y);
+	if(x==3) printf("%lld\n",work(y));
 	else{
-	    scanf("%d",&z);
+	    scanf("%lld",&z);
 	    if(x==1) ad(1,dfn[y],dfn[y],z);
 	    if(x==2) ad(1,ll[y],rr[y],z);
 	}
